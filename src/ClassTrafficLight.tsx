@@ -1,18 +1,20 @@
 import { Component } from "react";
 import { FunctionalTimer } from "./FunctionalTimer";
-import type { CurrentColor } from "./types";
+
 export class ClassTrafficLight extends Component {
   state = {
-    color: "red" as CurrentColor,
+    colorIndex: 0,
   };
-  nextColor = () => {
-    const colorMap = {
-      red: "green",
-      green: "yellow",
-      yellow: "red",
-    };
 
-    this.setState({ color: colorMap[this.state.color] });
+  colors = ["red", "green", "yellow"];
+
+  nextColor = () => {
+    this.setState({
+      colorIndex:
+        this.state.colorIndex == 0
+          ? this.colors.length - 1
+          : this.state.colorIndex - 1,
+    });
   };
 
   render() {
@@ -21,21 +23,14 @@ export class ClassTrafficLight extends Component {
         <h2>Class Traffic Light</h2>
         <div className="traffic-light">
           {/* Background color can be black | yellow | red | green */}
-          <div
-            className={
-              this.state.color === "red" ? "circle red" : "circle black"
-            }
-          ></div>
-          <div
-            className={
-              this.state.color === "yellow" ? "circle yellow" : "circle black"
-            }
-          ></div>
-          <div
-            className={
-              this.state.color === "green" ? "circle green" : "circle black"
-            }
-          ></div>
+          {this.colors.map((color, index) => {
+            return (
+              <div
+                key={color}
+                className={`circle ${index === this.state.colorIndex ? color : "black"}`}
+              ></div>
+            );
+          })}
         </div>
         <button className="next-state-button" onClick={this.nextColor}>
           Next State

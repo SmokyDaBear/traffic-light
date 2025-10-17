@@ -2,21 +2,19 @@ import { useState } from "react";
 import { FunctionalTimer } from "./FunctionalTimer";
 
 export const FunctionalTrafficLight = () => {
-  const [color, setColor] = useState("red");
+  const colors = ["red", "yellow", "green"];
+  const [colorIndex, setColorIndex] = useState(0);
   const nextColor = () =>
-    setColor(color === "red" ? "green" : color === "green" ? "yellow" : "red");
+    setColorIndex(colorIndex === 0 ? colors.length - 1 : colorIndex - 1);
   return (
     <div className="traffic-light-box">
       <h2>Functional Traffic Light</h2>
       <div className="traffic-light">
-        {/* Background color can be black | yellow | red | green */}
-        <div className={color === "red" ? "circle red" : "circle black"}></div>
-        <div
-          className={color === "yellow" ? "circle yellow" : "circle black"}
-        ></div>
-        <div
-          className={color === "green" ? "circle green" : "circle black"}
-        ></div>
+        {colors.map((color, index) => (
+          <div
+            className={`circle ${colorIndex === index ? color : "black"}`}
+          ></div>
+        ))}
       </div>
       <button className="next-state-button" onClick={nextColor}>
         Next State
